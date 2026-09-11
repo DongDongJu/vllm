@@ -7,6 +7,7 @@ import torch
 
 from vllm.config import VllmConfig
 from vllm.distributed.kv_events import (
+    MEDIUM_CPU,
     BlockStored,
     KVCacheEvent,
     KVConnectorKVEvents,
@@ -258,7 +259,7 @@ class LMCacheConnectorV1(KVConnectorBase_V1):
                 token_ids=e.token_ids,
                 lora_id=e.lora_id,
                 block_size=e.block_size,
-                medium=e.medium,
+                medium=MEDIUM_CPU if e.medium == "cpu" else e.medium,
                 lora_name=getattr(e, "lora_name", None),
             )
             for e in events

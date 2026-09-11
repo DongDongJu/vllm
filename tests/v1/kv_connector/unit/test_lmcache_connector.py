@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from vllm.distributed.kv_events import BlockStored
+from vllm.distributed.kv_events import MEDIUM_CPU, BlockStored
 from vllm.distributed.kv_transfer.kv_connector.v1.lmcache_connector import (
     LMCacheConnectorV1,
     LMCacheKVEvents,
@@ -41,7 +41,7 @@ def mock_lmcache_engine_event():
         token_ids=[1, 2, 3, 4],
         lora_id=None,
         block_size=16,
-        medium="GPU",
+        medium="cpu",
         lora_name=None,
     )
 
@@ -111,7 +111,7 @@ class TestGetKVConnectorKVCacheEvents:
         assert events[0].token_ids == [1, 2, 3, 4]
         assert events[0].lora_id is None
         assert events[0].block_size == 16
-        assert events[0].medium == "GPU"
+        assert events[0].medium == MEDIUM_CPU
         assert events[0].lora_name is None
 
     def test_converts_multiple_events(self, mock_connector):
