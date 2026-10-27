@@ -610,6 +610,16 @@ class KVConnectorBase_V1(ABC):
         """
         pass
 
+    def validate_request(self, request: "Request") -> None:
+        """Validate a request before it enters the scheduler.
+
+        Called on the input-processing thread. Implementations must only read
+        immutable connector configuration and must not mutate request or
+        scheduler state. Raise VLLMValidationError to reject this request
+        without stopping the engine. The default accepts all requests.
+        """
+        return
+
     def on_new_request(self, request: "Request") -> None:
         """Called by the scheduler when a new request is added.
 

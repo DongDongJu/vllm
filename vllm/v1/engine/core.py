@@ -1138,6 +1138,9 @@ class EngineCore:
             )
 
         req = Request.from_engine_core_request(request, self.request_block_hasher)
+        connector = self.scheduler.get_kv_connector()
+        if connector is not None:
+            connector.validate_request(req)
         if req.use_structured_output:
             # Note on thread safety: no race condition.
             # `grammar_init` is only invoked in input processing thread. For
